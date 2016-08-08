@@ -25,3 +25,9 @@ Then, follow bellow;
 -Check "APIs & auth" -> "Credentials" on side menu.
 -Hit "Create new Key" button on "Public API access" section.
 -Choose "Browser key" and keep blank on referer limitation.
+
+**Dependencies and Liscencing**
+
+MIT: gcal-flow https://sugi.github.io/jquery-gcal-flow/
+MIT: fullcalendar.io https://fullcalendar.io
+MIT: qTip2 http://qtip2.com/
