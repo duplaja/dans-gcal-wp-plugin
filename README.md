@@ -12,6 +12,8 @@ Welcome! This is a basic Google Calendar integration plugin, with the following 
 
 -Upcoming Events List can specify how many items to show, or turn on auto-scroll
 
+-Custom div id can be set for every calendar, for individual theming of each calendar
+
 Shortcodes:
 
 -Full Display `[dancal]` (defaults to 1st calendar) , or `[dancal cal=1 divid=idname]` (where 1 is 1-5, number of calendar you want, and divid is the id of the outermost div, for theming purposes. If you don't set divid, a random one is chosen to allow multiple calendars on the same page).
