@@ -89,9 +89,12 @@ function dans_gcal_display_settings() {
 </ul>
 <br>
 <b>Shortcodes:</b>
-<ul style=\"list-style-type:square\"><li>Full Display [dancal] (defaults to 1st calendar) , or [dancal cal=1] (where 1 is 1-5, number of calendar you want.</li>
-<li>Upcoming Events List: [dancal_list], or [dancal_list cal=1 num=30 scroll=true] (1 is 1-5 calendar number, num is a number > 0 for number of upcoming events to display, and scroll is true or false, to enable auto-scroll)</li>
-</ul>
+<ul style=\"list-style-type:square\"><li>Full Display [dancal] (defaults to 1st calendar) , or [dancal cal=1 divid=fullcal] (where 1 is 1-5, number of calendar you want, divid is the id you want to give the container div, to help with theming purposes. Otherwise, it's a random string if you leave it off)</li>
+<li>Upcoming Events List: [dancal_list], or [dancal_list cal=1 num=30 scroll=true divid=list1] (1 is 1-5 calendar number, num is a number > 0 for number of upcoming events to display, and scroll is true or false, to enable auto-scroll, divid is the id you want to give the container div, to help with theming purposes. Otherwise, it's a random string if you leave it off)</li>
+</ul><br>
+To create API key, visit <a href=\"https://console.developers.google.com/\" target=\"_blank\">Google Developers Console</a> Then, follow bellow;
+
+<ul style=\"list-style-type:square\"><li>Create new project (or use project you created before).</li><li>Check \"APIs & auth\" -> \"Credentials\" on side menu.</li><li>Hit \"Create new Key\" button on \"Public API access\" section.</li><li>Choose \"Browser key\" and keep blank on referer limitation.</li></ul>
 </p>";
 
 //Settings to be saved
@@ -100,24 +103,24 @@ echo "
 	<tr><td colspan=\"2\"><h2>API KEY - Google Calendar (All REQUIRED)</h2></td></tr> 
        <tr valign=\"top\">
         <th scope=\"row\">Google Calendar API Key</th>
-        <td><input type=\"text\" name=\"gcal_api_key\" value=\"".esc_attr( get_option('gcal_api_key') )."\" /></td></tr>
+        <td><input type=\"text\" name=\"gcal_api_key\" size=\"80\" value=\"".esc_attr( get_option('gcal_api_key') )."\" /></td></tr>
 
 	<tr><td colspan=\"2\"><h2>Google Calendar IDs (up to 5)</h2></td></tr> 
        <tr valign=\"top\">
         <th scope=\"row\">Google Calendar ID (1)</th>
-        <td><input type=\"text\" name=\"gcal_calid1\" value=\"".esc_attr( get_option('gcal_calid1') )."\" /></td></tr>
+        <td><input type=\"text\" name=\"gcal_calid1\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid1') )."\" /></td></tr>
        <tr valign=\"top\">
         <th scope=\"row\">Google Calendar ID (2)</th>
-        <td><input type=\"text\" name=\"gcal_calid2\" value=\"".esc_attr( get_option('gcal_calid2') )."\" /></td></tr>
+        <td><input type=\"text\" name=\"gcal_calid2\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid2') )."\" /></td></tr>
        <tr valign=\"top\">
         <th scope=\"row\">Google Calendar ID (3)</th>
-        <td><input type=\"text\" name=\"gcal_calid3\" value=\"".esc_attr( get_option('gcal_calid3') )."\" /></td></tr>
+        <td><input type=\"text\" name=\"gcal_calid3\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid3') )."\" /></td></tr>
        <tr valign=\"top\">
         <th scope=\"row\">Google Calendar ID (4)</th>
-        <td><input type=\"text\" name=\"gcal_calid4\" value=\"".esc_attr( get_option('gcal_calid4') )."\" /></td></tr>
+        <td><input type=\"text\" name=\"gcal_calid4\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid4') )."\" /></td></tr>
        <tr valign=\"top\">
         <th scope=\"row\">Google Calendar ID (5)</th>
-        <td><input type=\"text\" name=\"gcal_calid5\" value=\"".esc_attr( get_option('gcal_calid5') )."\" /></td></tr>
+        <td><input type=\"text\" name=\"gcal_calid5\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid5') )."\" /></td></tr>
 
     </table>";
     
@@ -142,13 +145,18 @@ function dancal_display_calendar( $atts ){
 		return $error;
 	}
 
+	//generates a random div id to allow multiple on one page, if one isn't specified in shortcode
+	$randdiv = 'a'.substr(md5(microtime()),rand(0,26),10);
+
 	//handles attributes. Defaults to 1st calendar if none is specified via attribute
 	$atts = shortcode_atts(
         array(
             'cal' => '1',
+		  'divid' => $randdiv,
         ), $atts, 'dancal' );
 
 	$cal = $atts['cal'];
+	$divid = $atts['divid'];	
 
 	//selects the appropriate calendar. If cal is invalid, returns an error message.
 	switch ($cal) {
@@ -188,7 +196,7 @@ function dancal_display_calendar( $atts ){
 
 	jQuery(document).ready(function() {
 		
-		jQuery('#calendar').fullCalendar({
+		jQuery('#$divid').fullCalendar({
 			header: {
 				left: 'today',
 				center: 'title',
@@ -250,7 +258,7 @@ function dancal_display_calendar( $atts ){
 
 </script>
 
-<div id='calendar'></div>";
+<div id='$divid'></div>";
 	return $disp;
 
 
@@ -274,17 +282,23 @@ function dancal_display_list($atts) {
 		return $error;
 	}
 
+
+	//generates a random div id to allow multiple on one page, if one isn't specified in shortcode
+	$randdiv = 'a'.substr(md5(microtime()),rand(0,26),10);
+
 	//Handles attribures. If none are specified, defaults to no scroll, 1st calendar, 50 items	
 	$atts = shortcode_atts(
         array(
             'cal' => 1,
 		  'num' => 50,
 		  'scroll' => 'false',
+		  'divid' => $randdiv,
         ), $atts, 'dancal_list' );
 
 	$cal = $atts['cal'];
 	$num = $atts['num'];
 	$scroll = $atts['scroll'];
+	$divid = $atts['divid'];
 
 	//Makes sure that scroll is a valid true / false option
 	if ($scroll != 'true') $scroll = 'false';
@@ -339,20 +353,20 @@ function dancal_display_list($atts) {
 
 
     $disp = "<style>
-      #gcf-list {
+      #$divid {
         height: 300px;
         width: 300px;
         background: #F0FFEE;
         filter: none;
 	   color: black!important;
       }
-      #gcf-list .gcf-header-block { background: green; filter:none; }
+      #$divid .gcf-header-block { background: green; filter:none; }
     </style>
-	<div id=\"gcf-list\">
+	<div id=\"$divid\">
     </div>
     <script type=\"text/javascript\">
 	jQuery(function() {
-      jQuery('#gcf-list').gCalFlow({
+      jQuery('#$divid').gCalFlow({
           calid: '$calendar',
 		apikey: '$gcal_api_key',
           maxitem: $num,
