@@ -14,9 +14,9 @@ Welcome! This is a basic Google Calendar integration plugin, with the following 
 
 Shortcodes:
 
--Full Display `[dancal]` (defaults to 1st calendar) , or `[dancal cal=1]` (where 1 is 1-5, number of calendar you want.
+-Full Display `[dancal]` (defaults to 1st calendar) , or `[dancal cal=1 divid=idname]` (where 1 is 1-5, number of calendar you want, and divid is the id of the outermost div, for theming purposes. If you don't set divid, a random one is chosen to allow multiple calendars on the same page).
 
--Upcoming Events List: `[dancal_list]`, or `[dancal_list cal=1 num=30 scroll=true]` (1 is 1-5 calendar number, num is a number 0 for number of upcoming events to display, and scroll is true or false, to enable auto-scroll)
+-Upcoming Events List: `[dancal_list]`, or `[dancal_list cal=1 num=30 scroll=true divid=idname]` (1 is 1-5 calendar number, num is a number 0 for number of upcoming events to display, scroll is true or false to enable auto-scroll, , and divid is the id of the outermost div, for theming purposes. If you don't set divid, a random one is chosen to allow multiple calendars on the same page))
 
 To create API key, visit Google Developers Console. https://console.developers.google.com/ 
 Then, follow bellow;
