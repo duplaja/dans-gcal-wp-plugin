@@ -134,7 +134,7 @@ echo "
 //function displays full calendar on shortcode base: [dancal]
 function dancal_display_calendar( $atts ){
 
-	settings_fields( 'dans-gcal-settings-group' );
+	//settings_fields( 'dans-gcal-settings-group' );
 
 	$gcal_api_key = esc_attr( get_option('gcal_api_key') );
 	//$gcal_api_key ='';
@@ -271,7 +271,7 @@ add_shortcode('dancal', 'dancal_display_calendar');
 function dancal_display_list($atts) {
 
 
-	settings_fields( 'dans-gcal-settings-group' );
+	//settings_fields( 'dans-gcal-settings-group' );
 
 	$gcal_api_key = esc_attr( get_option('gcal_api_key') );
 	//$gcal_api_key ='';
