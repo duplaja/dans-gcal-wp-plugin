@@ -9,7 +9,7 @@
 * Author URI: https://convexcode.com
 **/
 
-//enqueues all css files needed d
+//enqueues all css files needed
 function gcal_enqueue_style() {
 
 	wp_enqueue_style( 'cal-style', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/fullcalendar.min.css', false ); 
@@ -183,12 +183,12 @@ function dancal_display_calendar( $atts ){
 		$error = 'You must first enter a valid Google Calendar id.';
 		return $error;
 	}
-
+	$randdiv = 'a'.substr(md5(microtime()),rand(0,26),10);
 	$disp = "<script>
 
 	jQuery(document).ready(function() {
 		
-		jQuery('#calendar').fullCalendar({
+		jQuery('#$randdiv').fullCalendar({
 			header: {
 				left: 'today',
 				center: 'title',
@@ -250,7 +250,7 @@ function dancal_display_calendar( $atts ){
 
 </script>
 
-<div id='calendar'></div>";
+<div id='$randdiv'></div>";
 	return $disp;
 
 
@@ -337,22 +337,22 @@ function dancal_display_list($atts) {
 		return $error;
 	}
 
-
+    $randdiv = 'a'.substr(md5(microtime()),rand(0,26),10);
     $disp = "<style>
-      #gcf-list {
+      #$randdiv {
         height: 300px;
         width: 300px;
         background: #F0FFEE;
         filter: none;
 	   color: black!important;
       }
-      #gcf-list .gcf-header-block { background: green; filter:none; }
+      #$randdiv .gcf-header-block { background: green; filter:none; }
     </style>
-	<div id=\"gcf-list\">
+	<div id=\"$randdiv\">
     </div>
     <script type=\"text/javascript\">
 	jQuery(function() {
-      jQuery('#gcf-list').gCalFlow({
+      jQuery('#$randdiv').gCalFlow({
           calid: '$calendar',
 		apikey: '$gcal_api_key',
           maxitem: $num,
