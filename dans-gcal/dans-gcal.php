@@ -9,7 +9,7 @@
 * Author URI: https://convexcode.com
 **/
 
-//enqueues all css files needed
+//enqueues all css files needed d
 function gcal_enqueue_style() {
 
 	wp_enqueue_style( 'cal-style', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/fullcalendar.min.css', false ); 
