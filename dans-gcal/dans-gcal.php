@@ -57,11 +57,7 @@ add_action( 'admin_init', 'dans_gcal_settings' );
 
 function dans_gcal_settings() {
 	register_setting( 'dans-gcal-settings-group', 'gcal_api_key' ); //api key
-	register_setting( 'dans-gcal-settings-group', 'gcal_calid1' ); //calendar id 1
-	register_setting( 'dans-gcal-settings-group', 'gcal_calid2' ); //calendar id 2
-	register_setting( 'dans-gcal-settings-group', 'gcal_calid3' ); //calendar id 3
-	register_setting( 'dans-gcal-settings-group', 'gcal_calid4' ); //calendar id 4
-	register_setting( 'dans-gcal-settings-group', 'gcal_calid5' ); //calendar id 5
+	register_setting( 'dans-gcal-settings-group', 'gcal_calids' ); //array of calendar ids
 }
 
 
@@ -74,6 +70,29 @@ function dans_gcal_display_settings() {
 
 	settings_fields( 'dans-gcal-settings-group' );
 	do_settings_sections( 'dans-gcal-settings-group' );
+
+echo "<script>function addRow(nextnum,nextdisp){
+
+
+var toremove = 'addrowbutton';
+var elem = document.getElementById(toremove);
+    elem.parentNode.removeChild(elem);
+
+
+var table = document.getElementById(\"gcal-settings\");
+var row = table.insertRow(-1);
+var cell1 = row.insertCell(0);
+var cell2 = row.insertCell(1);
+c1var = '<b>Google Calendar ID ('+nextdisp+')</b>';
+cell1.innerHTML = c1var;
+var newnextdisp= nextdisp+1;
+c2var = '<input type=\"text\" name=\"gcal_calids['+nextnum+']\" size=\"80\"><button type=\"button\" id=\"addrowbutton\" onClick=\"addRow('+nextdisp+','+newnextdisp+')\">Add Row</button>';
+
+cell2.innerHTML = c2var;
+
+}</script>
+
+";
 
 	//paragraph giving plugin explanation, api setup instructions, and shortcode information
     echo "	
@@ -88,8 +107,8 @@ function dans_gcal_display_settings() {
 </ul>
 <br>
 <b>Shortcodes:</b>
-<ul style=\"list-style-type:square\"><li>Full Display [dancal] (defaults to 1st calendar) , or [dancal cal=1 divid=fullcal] (where 1 is 1-5, number of calendar you want, divid is the id you want to give the container div, to help with theming purposes. Otherwise, it's a random string if you leave it off)</li>
-<li>Upcoming Events List: [dancal_list], or [dancal_list cal=1 num=30 scroll=true divid=list1] (1 is 1-5 calendar number, num is a number > 0 for number of upcoming events to display, and scroll is true or false, to enable auto-scroll, divid is the id you want to give the container div, to help with theming purposes. Otherwise, it's a random string if you leave it off)</li>
+<ul style=\"list-style-type:square\"><li>Full Display [dancal] (defaults to 1st calendar) , or [dancal cal=1 divid=fullcal] (where 1 the number of calendar you want, divid is the id you want to give the container div, to help with theming purposes. Otherwise, it's a random string if you leave it off)</li>
+<li>Upcoming Events List: [dancal_list], or [dancal_list cal=1 num=30 scroll=true divid=list1] (1 is calendar number, num is a number > 0 for number of upcoming events to display, and scroll is true or false, to enable auto-scroll, divid is the id you want to give the container div, to help with theming purposes. Otherwise, it's a random string if you leave it off)</li>
 </ul><br>
 To create API key, visit <a href=\"https://console.developers.google.com/\" target=\"_blank\">Google Developers Console</a> Then, follow bellow;
 
@@ -98,34 +117,47 @@ To create API key, visit <a href=\"https://console.developers.google.com/\" targ
 
 //Settings to be saved
 echo "
-<table class=\"form-table\">
+<table id=\"gcal-settings\" class=\"form-table\">
 	<tr><td colspan=\"2\"><h2>API KEY - Google Calendar (All REQUIRED)</h2></td></tr> 
        <tr valign=\"top\">
         <th scope=\"row\">Google Calendar API Key</th>
         <td><input type=\"text\" name=\"gcal_api_key\" size=\"80\" value=\"".esc_attr( get_option('gcal_api_key') )."\" /></td></tr>
 
-	<tr><td colspan=\"2\"><h2>Google Calendar IDs (up to 5)</h2></td></tr> 
-       <tr valign=\"top\">
-        <th scope=\"row\">Google Calendar ID (1)</th>
-        <td><input type=\"text\" name=\"gcal_calid1\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid1') )."\" /></td></tr>
-       <tr valign=\"top\">
-        <th scope=\"row\">Google Calendar ID (2)</th>
-        <td><input type=\"text\" name=\"gcal_calid2\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid2') )."\" /></td></tr>
-       <tr valign=\"top\">
-        <th scope=\"row\">Google Calendar ID (3)</th>
-        <td><input type=\"text\" name=\"gcal_calid3\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid3') )."\" /></td></tr>
-       <tr valign=\"top\">
-        <th scope=\"row\">Google Calendar ID (4)</th>
-        <td><input type=\"text\" name=\"gcal_calid4\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid4') )."\" /></td></tr>
-       <tr valign=\"top\">
-        <th scope=\"row\">Google Calendar ID (5)</th>
-        <td><input type=\"text\" name=\"gcal_calid5\" size=\"80\" value=\"".esc_attr( get_option('gcal_calid5') )."\" /></td></tr>
+<tr><td colspan=\"2\"><h2>Google Calendar IDs</h2></td></tr>";
 
-    </table>";
+$gcal_calids = get_option('gcal_calids');
+$num_cals = 0;
+$num_cals = count($gcal_calids);
+
+if ($num_cals > 1) $showrows=$num_cals; 
+else $showrows = 1;
+
+for ($i=0;$i < $showrows; $i++) {
+	$nextid = $i+1;
+	$nextdisp = $i+2;
+	$calnum = $i+1;
+	echo " 
+       <tr valign=\"top\">
+        <th scope=\"row\">Google Calendar ID ($calnum)</th>
+        <td><input type=\"text\" name=\"gcal_calids[$i]\" size=\"80\" value=\"$gcal_calids[$i]\"/>
+";
+
+if (($showrows -1) == $i) {
+
+echo "<button type=\"button\" id=\"addrowbutton\" onClick=\"addRow($nextid,$nextdisp)\">Add Row</button>";
+
+}
+echo "</td></tr>";
+
+}
+       
+   echo" </table>";
     
     submit_button();
 
 	echo "</form>";
+
+
 
 
 }
@@ -157,34 +189,12 @@ function dancal_display_calendar( $atts ){
 	$cal = $atts['cal'];
 	$divid = $atts['divid'];	
 
-	//selects the appropriate calendar. If cal is invalid, returns an error message.
-	switch ($cal) {
+	$gcal_calids = get_option('gcal_calids');
 
-		case 1:
-			$calendar = esc_attr( get_option('gcal_calid1') );
-			break;
+	$gcal_num = $cal-1;
 
-		case 2:
-			$calendar = esc_attr( get_option('gcal_calid2') );
-			break;
-
-		case 3:
-			$calendar = esc_attr( get_option('gcal_calid3') );
-			break;
-
-		case 4:
-			$calendar = esc_attr( get_option('gcal_calid4') );
-			break;
-
-		case 5:
-			$calendar = esc_attr( get_option('gcal_calid5') );
-			break;
-
-		default:
-
-			$calendar = 'broken';
-	}
-
+	$calendar = $gcal_calids[$gcal_num];
+	
 	if ($calendar == '' || $calendar == 'broken') { 
 		
 		$error = 'You must first enter a valid Google Calendar id.';
@@ -247,7 +257,7 @@ function dancal_display_calendar( $atts ){
 
 			googleCalendarApiKey: '$gcal_api_key',
      
-		   events: '$calendar',
+		   events: 'https://www.googleapis.com/calendar/v3/calendars/$calendar',
      	   
 
 		});
@@ -255,7 +265,6 @@ function dancal_display_calendar( $atts ){
 	});
 
 </script>
-
 <div id='$divid'></div>";
 	return $disp;
 
@@ -315,40 +324,18 @@ function dancal_display_list($atts) {
 
 	}
 
-	//Gets the google calendar from the stored options. Empty or ones that aren't 1-5 display an error.
-	switch ($cal) {
 
-		case 1:
-			$calendar = esc_attr( get_option('gcal_calid1') );
-			break;
+	$gcal_calids = get_option('gcal_calids');
 
-		case 2:
-			$calendar = esc_attr( get_option('gcal_calid2') );
-			break;
+	$gcal_num = $cal-1;
 
-		case 3:
-			$calendar = esc_attr( get_option('gcal_calid3') );
-			break;
-
-		case 4:
-			$calendar = esc_attr( get_option('gcal_calid4') );
-			break;
-
-		case 5:
-			$calendar = esc_attr( get_option('gcal_calid5') );
-			break;
-
-		default:
-
-			$calendar = 'broken';
-	}
-
+	$calendar = $gcal_calids[$gcal_num];
+	
 	if ($calendar == '' || $calendar == 'broken') { 
 		
 		$error = 'You must first enter a valid Google Calendar id.';
 		return $error;
 	}
-
 
     $disp = "<style>
       #$divid {
