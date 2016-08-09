@@ -24,12 +24,12 @@ function gcal_enqueue_style() {
 //enqueues all js files needed
 function gcal_enqueue_script() {
 
-        wp_enqueue_script( 'moment-js', plugin_dir_url( __FILE__ ) . 'js/fullca$
+	wp_enqueue_script( 'moment-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/lib/moment.min.js', false ); 
 
-
-	wp_enqueue_script( 'fullcal-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/fullcalendar.min.js', false );
+	wp_enqueue_script( 'fullcal-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/fullcalendar.js', false );
 
 	wp_enqueue_script( 'gcal-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/gcal.js', false ); 
+
 
 	wp_enqueue_script( 'qtip-js', plugin_dir_url( __FILE__ ) . 'js/jquery.qtip.min.js', false ); 
 
@@ -247,9 +247,8 @@ function dancal_display_calendar( $atts ){
 
 			googleCalendarApiKey: '$gcal_api_key',
      
-		   events: {
-     	       googleCalendarId: '$calendar'
-     	   },
+		   events: '$calendar',
+     	   
 
 		});
 

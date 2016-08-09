@@ -121,7 +121,7 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 
 	return $.extend({}, sourceOptions, {
 		googleCalendarId: null, // prevents source-normalizing from happening again
-		//url: url,
+		url: url,
 		data: data,
 		startParam: false, // `false` omits this parameter. we already included it above
 		endParam: false, // same
@@ -148,7 +148,7 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 						title: entry.summary,
 						start: entry.start.dateTime || entry.start.date, // try timed. will fall back to all-day
 						end: entry.end.dateTime || entry.end.date, // same
-						//url: url,
+						url: url,
 						location: entry.location,
 						description: entry.description
 					});
