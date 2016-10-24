@@ -38,7 +38,7 @@ For help creating an API key to use with this plugin, either check out the setti
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/prism-js` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/dans-gcal` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 1. Head over to the Dan's GCal settings page, found on the Dashboard sidebar.
 
