@@ -74,13 +74,11 @@ Once you have set the calendar as public, you can find the id with the following
 
 == Screenshots ==
 
-1. Sample code block created with Codeblocks Extended. Notice the copy button in the top right corner. 
+1. List view calendar created with Dan's Embedder for Google Calendar
 
-2. Code block with line highlighting.
+2. Full Size Calendar Created
 
-3. Visual Editor TinyMCE options.
-
-4. Text Editor Button
+3. Settings Page
 
 == Dependencies and Liscencing ==
 
