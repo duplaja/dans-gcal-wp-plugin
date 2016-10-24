@@ -1,10 +1,10 @@
 <?php
 
 /**
-* Plugin Name: Dans Google Calendar
-* Plugin URI: https://convexcode.com
-* Description: A custom Google Calendar Plugin
-* Version: 0.1
+* Plugin Name: Dans Embedder for Google Calendar
+* Plugin URI: https://www.wptechguides.com
+* Description: A custom Google Calendar embed w/ list and full view
+* Version: 1.0
 * Author: Dan Dulaney
 * Author URI: https://convexcode.com
 **/
