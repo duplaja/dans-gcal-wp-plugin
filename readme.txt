@@ -36,6 +36,10 @@ Shortcodes Cheatsheet:
 
 For help creating an API key to use with this plugin, either check out the settings page in plugin, or the FAQ tab here.
 
+To see other plugins like this, or tips on how these are built, check out [WP Tech Guides](https://www.wptechguides.com/).
+
+Thanks to Mike @ [WP Bullet](https://wp-bullet.com/) for the banner and icon.
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/dans-gcal` directory, or install the plugin through the WordPress plugins screen directly.
