@@ -3,7 +3,7 @@ Contributors: duplaja
 Donate link: https://www.wptechguides.com/donate/
 Tags: embed, Google Calendar, calendar, gcal, dan
 Requires at least: 4.0.1
-Tested up to: 4.6.1
+Tested up to: 4.7.0
 Stable tag: trunk
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -93,6 +93,10 @@ MIT: fullcalendar.io https://fullcalendar.io
 MIT: qTip2 http://qtip2.com/
 
 == Changelog ==
+= 1.1 =
+* Added jquery as dependency for enqueue (fixes jquery not found)
+* Moved settings dash link to tools submenu
+* Tested for 4.7
 
 = 1.0 =
 * Initial Plugin Release
