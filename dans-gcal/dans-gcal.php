@@ -4,7 +4,7 @@
 * Plugin Name: Dans Embedder for Google Calendar
 * Plugin URI: https://www.wptechguides.com
 * Description: A custom Google Calendar embed w/ list and full view
-* Version: 1.0
+* Version: 1.1
 * Author: Dan Dulaney
 * Author URI: https://convexcode.com
 **/
@@ -24,18 +24,18 @@ function gcal_enqueue_style() {
 //enqueues all js files needed
 function gcal_enqueue_script() {
 
-	wp_enqueue_script( 'moment-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/lib/moment.min.js', false ); 
+	wp_enqueue_script( 'moment-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/lib/moment.min.js', array('jquery'), false ); 
 
-	wp_enqueue_script( 'fullcal-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/fullcalendar.js', false );
+	wp_enqueue_script( 'fullcal-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/fullcalendar.js', array('jquery'), false );
 
-	wp_enqueue_script( 'gcal-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/gcal.js', false ); 
+	wp_enqueue_script( 'gcal-js', plugin_dir_url( __FILE__ ) . 'js/fullcalendar/gcal.js', array('jquery'), false ); 
 
 
-	wp_enqueue_script( 'qtip-js', plugin_dir_url( __FILE__ ) . 'js/jquery.qtip.min.js', false ); 
+	wp_enqueue_script( 'qtip-js', plugin_dir_url( __FILE__ ) . 'js/jquery.qtip.min.js', array('jquery'), false ); 
 
-	wp_enqueue_script( 'gcal-flow-js', plugin_dir_url( __FILE__ ) . 'js/jquery-gcal-flow/jquery.gcal_flow.js', false ); 
+	wp_enqueue_script( 'gcal-flow-js', plugin_dir_url( __FILE__ ) . 'js/jquery-gcal-flow/jquery.gcal_flow.js', array('jquery'), false ); 
 
-	wp_enqueue_script( 'gcal-flow-jsapi-js', 'https://www.google.com/jsapi', false ); 
+	wp_enqueue_script( 'gcal-flow-jsapi-js', 'https://www.google.com/jsapi', array('jquery'), false ); 
 
 
 }
@@ -49,7 +49,8 @@ add_action('admin_menu', 'dans_gcal_plugin_menu');
 
 //creates a menu page with the following settings
 function dans_gcal_plugin_menu() {
-	add_menu_page('Dans Google Calendar Settings', 'Dans gCal', 'administrator', 'dans-gcal-settings', 'dans_gcal_display_settings', 'dashicons-admin-generic');
+
+	add_submenu_page('tools.php', 'Dan\'s gCal', 'Dan\'s gCal', 'manage_options', 'dans-gcal-settings', 'dans_gcal_display_settings');
 }
 
 //on-load, sets up the following settings for the plugin
