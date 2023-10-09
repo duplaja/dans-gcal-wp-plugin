@@ -4,7 +4,7 @@
 * Plugin Name: Dans Embedder for Google Calendar
 * Plugin URI: https://www.wptechguides.com
 * Description: A custom Google Calendar embed w/ list and full view
-* Version: 1.1
+* Version: 1.3.1
 * Author: Dan Dulaney
 * Author URI: https://convexcode.com
 **/
@@ -188,7 +188,9 @@ function dancal_display_calendar( $atts ){
         ), $atts, 'dancal' );
 
 	$cal = $atts['cal'];
-	$divid = $atts['divid'];	
+	$divid = $atts['divid'];
+
+	$divid = preg_replace("/[^a-zA-Z0-9-]/", "", $divid);
 
 	$gcal_calids = get_option('gcal_calids');
 
@@ -307,6 +309,8 @@ function dancal_display_list($atts) {
 	$num = $atts['num'];
 	$scroll = $atts['scroll'];
 	$divid = $atts['divid'];
+
+	$divid = preg_replace("/[^a-zA-Z0-9-]/", "", $divid);
 
 	//Makes sure that scroll is a valid true / false option
 	if ($scroll != 'true') $scroll = 'false';
